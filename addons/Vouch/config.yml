@@ -1,0 +1,27 @@
+# ===========================================================================
+# Plex Tickets Vouch Addon Configuration
+# If you find any issues, need support, or have a suggestion for the dashboard, please join our support server and create a ticket, 
+# Discord: https://discord.gg/plexdev
+# Documentation: https://docs.plexdevelopment.net
+# ===========================================================================
+
+vouchChannelId: "CHANNEL_ID" # The channel all vouches should be sent to
+
+# Config option to control whether users are allowed to vouch for specific individuals.
+# If set to 'true', users can vouch for a specific user using the /vouch command.
+# If set to 'false', users can only vouch for the business as a whole.
+allowUserSpecificVouch: true
+
+uploadImage: false # Set to true to require users to upload proof/image that will be displayed in the vouch embed
+
+requiredRoles: ["ROLE_ID", "ROLE_ID"] # Only users with these roles can use the vouch command, You can add multiple
+
+customization:
+  embedColor: "#5e99ff"
+  vouchTitle: "🎉 Vouch (#${count})"
+  vouchFooterText: "Vouched by ${authorTag}"
+  userFieldTitle: "Vouched User"
+  vouchedByFieldTitle: "Vouched By"
+  vouchedAtFieldTitle: "Vouched at"
+  starsFieldTitle: "Stars"
+  messageDescription: "${messageContent}"

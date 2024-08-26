@@ -1,0 +1,228 @@
+<!-- header.ejs -->
+
+<header>
+    <div class="topbar-content">
+        <div class="user-info">
+            <img class="profile-pic" src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" alt="User Avatar">
+            <div class="user-details">
+                <span><%= user.username %></span>
+            </div>
+        </div>
+        <nav>
+            <a href="/home" class="<%= currentPage === 'home' ? 'current' : '' %>">
+                <i class="fas fa-home"></i>
+                Home
+            </a>
+            <a href="/statistics" class="<%= currentPage === 'statistics' ? 'current' : '' %>">
+                <i class="fas fa-chart-bar"></i>
+                Stats
+            </a>
+            <a href="/tickets" class="<%= currentPage === 'tickets' ? 'current' : '' %>">
+                <i class="fas fa-ticket"></i>
+                Tickets
+            </a>
+            <a href="/reviews" class="<%= currentPage === 'reviews' ? 'current' : '' %>">
+                <i class="fas fa-star"></i>
+                Reviews
+            </a>
+            <a href="/blacklist" class="<%= currentPage === 'blacklist' ? 'current' : '' %>">
+                <i class="fas fa-exclamation-triangle"></i>
+                Blacklist
+            </a>
+            <a href="/embed" class="<%= currentPage === 'embed' ? 'current' : '' %>">
+                <i class="fas fa-cogs"></i>
+                Embed Builder
+            </a>
+            <a href="/alerts" class="<%= currentPage === 'alerts' ? 'current' : '' %>">
+                <i class="fas fa-bell"></i>
+                Status Alerts
+            </a>
+        </nav>
+        <a href="/logout" class="logout-button">
+            <i class="fas fa-sign-out-alt discord-icon"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+    <div class="beta-note">
+        <p class="beta-text">This dashboard is in very early development and in beta. Issues are bound to happen. Please provide feedback and report bugs in our <a href="https://discord.gg/plexdev" target="_blank" class="discord-link">Discord server</a>.</p>
+    </div>
+</header>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        background-color: #16191c;
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        width: 100%;
+        z-index: 2;
+    }
+
+    .topbar-content {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-pic {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+
+    .user-details {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .user-details span {
+        margin-top: 5px;
+        font-size: 14px;
+    }
+
+    .logout-button {
+        background-color: #5e99ff;
+        color: #fff;
+        padding: 8px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        margin-top: 5px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+    }
+
+    .logout-button i {
+        margin-right: 5px;
+    }
+
+    .logout-button span {
+        display: inline-block;
+    }
+
+    .logout-button:hover {
+    background-color: #4285f4;
+    transform: scale(1.05);
+}
+
+    nav {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    nav a {
+    color: #ccc;
+    text-decoration: none;
+    padding: 8px;
+    margin: 0 5px;
+    border-radius: 5px;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center; /* Align items vertically in the middle */
+    font-size: 14px;
+    line-height: 1; /* Set line-height to 1 */
+}
+
+nav a i {
+    margin-right: 5px;
+}
+
+    nav a:hover,
+    nav a.current {
+        color: #5e99ff;
+    }
+    @media (max-width: 768px) {
+        header {
+            padding: 8px;
+            text-align: center;
+        }
+
+        .topbar-content {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-info {
+            margin-bottom: 5px;
+        }
+
+        .user-details {
+            align-items: center;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .logout-button {
+            margin-top: 5px;
+        }
+
+        nav {
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        nav a {
+            margin: 0;
+        }
+    }
+
+    .beta-note {
+        background-color: #2c2c2c;
+        color: #ffffcc;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        width: 100%;
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .beta-text {
+        margin: 0;
+    }
+
+    .discord-link {
+        color: #5e99ff;
+        text-decoration: none;
+    }
+
+    .discord-link:hover {
+        text-decoration: underline;
+    }
+
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #5e99ff;
+        border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: #2c2c2c;
+    }
+
+</style>

@@ -1,0 +1,287 @@
+<!-- views/home.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/23c5cf9afa.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Helvetica:wght@400;700&display=swap">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Home | Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+    
+        body {
+            font-family: 'Helvetica', sans-serif;
+            background-color: #16191c;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #fff;
+            line-height: 1.6;
+        }
+    
+        #main-content {
+            display: flex;
+            flex-grow: 1;
+            overflow-x: hidden;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+    
+        .home-container {
+            background-color: #1e2126;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            box-sizing: border-box;
+            padding: 40px;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 20px;
+            position: relative;
+        }
+    
+        .home-container h1 {
+            color: #5e99ff;
+            margin: 20px 0;
+        }
+    
+        .home-container img.logo {
+            width: 3em;
+            height: 3em;
+            margin-bottom: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    
+    .stats-container {
+    display: flex;
+    width: 100%;
+    margin-top: 20px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.stat {
+    flex: 0 0 calc(25% - 20px);
+    background-color: #38444d;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-right: 20px;
+    color: #5e99ff;
+    overflow: hidden;
+    height: 200px;
+}
+
+.stat h2 {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.stat p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.stat:hover {
+    background-color: #48555f;
+    transform: scale(1.05);
+}
+    
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            width: 100%;
+            justify-content: space-around;
+        }
+    
+        .chart {
+            width: calc(50% - 20px);
+            background-color: #2c2c2c;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+    
+        @media (max-width: 768px) {
+            .charts-container,
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            .chart,
+            .stat {
+                width: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <%- include('partials/header', { user: user, currentPage: 'home'}) %>
+
+    <div id="main-content">
+        <div class="home-container">
+            <img class="logo" src="https://i.imgur.com/LGS8a5u.png" alt="Logo">
+            <h1>Plex Tickets Dashboard</h1>
+
+            <div class="stats-container">
+                <% if (guildStats) { %>
+                    <div class="stat">
+                        <i class="fas fa-ticket-alt"></i>
+                        <h2>Tickets</h2>
+                        <p><%= guildStats.totalTickets.toLocaleString('en-US') %></p>
+                        <p style="color: #ccc; font-size: 14px;">Currently open: <%= guildStats.openTickets %></p>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-comment"></i>
+                        <h2>Messages</h2>
+                        <p><%= guildStats.totalMessages.toLocaleString('en-US') %></p>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-clock"></i>
+                        <h2>Avg. Completion Time</h2>
+                        <p><%= guildStats.averageCompletion %></p>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-star"></i>
+                        <h2>Avg. Rating</h2>
+                        <p>
+                            <% for (let i = 0; i < Math.floor(guildStats.averageRating); i++) { %>
+                                <i class="fas fa-star" style="color: #FFD700;"></i></i>
+                            <% } %>
+                            <% if (guildStats.averageRating % 1 !== 0) { %>
+                                <i class="fas fa-star-half-alt" style="color: #FFD700;"></i>
+                            <% } %>
+                            <% for (let i = Math.ceil(guildStats.averageRating); i < 5; i++) { %>
+                                <i class="far fa-star"></i>
+                            <% } %>
+                        </p>
+                        <p style="color: #ccc; font-size: 14px;">Total reviews: <%= guildStats.totalReviews.toLocaleString('en-US') %></p>
+                    </div>
+                <% } else { %>
+                    <p>Error fetching data from MongoDB</p>
+                <% } %>
+            </div>
+
+            <div class="charts-container">
+                <canvas id="combinedChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Function to create and update charts
+    const updateCharts = async () => {
+        try {
+            const response = await fetch('/api/weeklyStats');
+            const weeklyStatsData = await response.json();
+
+            // Extract data for the chart
+            const labels = weeklyStatsData[0].dailyMetrics.map(day => {
+                const date = new Date(day.timestamp);
+                const dayName = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(date);
+                const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' }).format(date);
+                return `${dayName} ${formattedDate}`;
+            });
+
+            // Sort labels by day order
+            const daysOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            labels.sort((a, b) => daysOrder.indexOf(a.split(' ')[0]) - daysOrder.indexOf(b.split(' ')[0]));
+
+            // Sort weeklyStatsData by timestamp and day order
+            weeklyStatsData.forEach(week => {
+                week.dailyMetrics.sort((a, b) => {
+                    const dayOrderA = daysOrder.indexOf(new Date(a.timestamp).toLocaleString('en-US', { weekday: 'long' }));
+                    const dayOrderB = daysOrder.indexOf(new Date(b.timestamp).toLocaleString('en-US', { weekday: 'long' }));
+                    return dayOrderA - dayOrderB || new Date(a.timestamp) - new Date(b.timestamp);
+                });
+            });
+
+            const totalTicketsData = {
+                labels: labels,
+                datasets: [{
+                    label: "Tickets Opened",
+                    backgroundColor: "#4FBFAC",
+                    data: weeklyStatsData.flatMap(week => week.dailyMetrics.map(day => day.totalTickets)),
+                }],
+            };
+
+            const openTicketsData = {
+                labels: labels,
+                datasets: [{
+                    label: "Tickets Closed",
+                    backgroundColor: "#F69C3D",
+                    data: weeklyStatsData.flatMap(week => week.dailyMetrics.map(day => day.ticketsClosed)),
+                }],
+            };
+
+            const chartCtx = document.getElementById("combinedChart").getContext("2d");
+
+            new Chart(chartCtx, {
+                type: "bar",
+                data: {
+                    labels: labels,
+                    datasets: [totalTicketsData.datasets[0], openTicketsData.datasets[0]],
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            stepSize: 1,
+                        },
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return context.dataset.label + ': ' + Math.round(context.parsed.y);
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+        } catch (error) {
+            console.error('Error fetching weekly stats:', error);
+        }
+    };
+
+    updateCharts();
+
+    window.addEventListener('resize', () => {
+        setTimeout(() => {
+            updateCharts();
+        }, 300);
+    });
+</script>
+
+
+
+<%- include('partials/footer') %>
+</body>
+
+</html>

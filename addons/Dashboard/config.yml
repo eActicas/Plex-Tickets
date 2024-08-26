@@ -1,0 +1,50 @@
+# ===========================================================================
+# Plex Tickets Dashboard Configuration
+# If you find any issues, need support, or have a suggestion for the dashboard, please join our support server and create a ticket, 
+# Discord: https://discord.gg/plexdev
+# Documentation: https://docs.plexdevelopment.net
+# ===========================================================================
+DashboardLogs: true # Enable dashboards logs in the terminal? user logins, actions, etc..
+
+# ===========================================================================
+# DISCORD OAUTH2
+# You must not leave them as blank!
+# ===========================================================================
+# Discord OAuth2 credentials, get these from the Discord Developer Portal: https://discord.com/developers/applications
+# Note: MAKE SURE TO REPLACE LOCALHOST:3000 WITH THE DOMAIN OR IP YOU ACCESS THE WEB DASHBOARD WITH!
+clientID: "CLIENT_ID"
+clientSecret: "CLIENT_SECRET"
+callbackURL: "http://localhost:3000/auth/discord/callback" # Create a Redirect URL in the Developer Portal and set it to the callback URL below
+
+# ===========================================================================
+# WEBSERVER
+# You must not leave them as blank!
+# ===========================================================================
+URL: "http://localhost:3000" # The exact same url you will use to access the dashboard, Example: https://dashboard.plexdevelopment.net (NO TRAILING SLASHES) IP also works
+Port: 3000 # The port you want the webserver to be ran on
+
+
+secretKey: "uNLmkcGY23asdds31k8s0mj" # This can be anything, We recommend using this https://www.dashlane.com/features/password-generator with at least 20 characters
+
+# ===========================================================================
+# DASHBOARD PERMISSIONS
+# You must not leave them as blank!
+# ===========================================================================
+AccessDashboard: ["ROLE_ID", "ROLE_ID"] # Users with these roles will be able to access and login to the dashboard, You can add multiple
+
+Pages:
+  Home: ["ROLE_ID", "ROLE_ID"] # Users with these roles will be able to access and view the home page, You can add multiple
+  Stats: ["ROLE_ID", "ROLE_ID"] # Users with these roles will be able to access and view the stats page, You can add multiple
+  Tickets: ["ROLE_ID", "ROLE_ID"] # Users with these roles will be able to access and view the tickets page, You can add multiple
+  Reviews: ["ROLE_ID", "ROLE_ID"] # Users with these roles will be able to access and view the reviews page, You can add multiple
+  Blacklist: ["ROLE_ID", "ROLE_ID"]
+  EmbedBuilder: ["ROLE_ID", "ROLE_ID"]
+  StatusAlerts: ["ROLE_ID", "ROLE_ID"]
+
+Actions: 
+  ViewTranscripts: ["ROLE_ID", "ROLE_ID"] # Users with these roles will be able to access and view all ticket transcripts, (Ticket creators will still be able to view their own transcripts)
+  DeleteTickets: ["ROLE_ID", "ROLE_ID"] # Users with these roles will be able to delete tickets from the database
+  DeleteReviews: ["ROLE_ID", "ROLE_ID"] # Users with these roles will be able to delete reviews from the database
+  BlacklistUsers: ["ROLE_ID", "ROLE_ID"]
+  UseEmbedBuilder: ["ROLE_ID", "ROLE_ID"]
+  ManageStatusAlerts: ["ROLE_ID", "ROLE_ID"]

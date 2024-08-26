@@ -1,0 +1,76 @@
+# ===========================================================================
+# Plex Tickets Commands Configuration
+# If you find any issues, need support, or have a suggestion for the bot, please join our support server and create a ticket, 
+# https://discord.gg/plexdev
+# ===========================================================================
+
+# ===========================================================================
+# GENERAL COMMANDS
+# ===========================================================================
+
+General:
+  Help: # Help command
+    Enabled: true
+    Description: "Displays a list of all commands"
+  Ping: # Ping command
+    Enabled: true
+    Description: "Check the bot's ping"
+  Stats: # Stats command
+    Enabled: true
+    Description: "Guild Statistics"
+  Suggest: # Suggest command
+    Enabled: true
+    Description: "Submit a suggestion"
+
+# ===========================================================================
+# TICKET COMMANDS
+# ===========================================================================
+
+Ticket:
+  Add: # Add command
+    Enabled: true
+    Description: "Add a user to the ticket"
+    AllowEveryoneToUse: true # If set to false, only users with support roles can use this command
+  Remove: # Remove command
+    Enabled: true
+    Description: "Remove a user from the ticket"
+    AllowEveryoneToUse: true # If set to false, only users with support roles can use this command
+  Close: # Close command
+    Enabled: true
+    Description: "Close a ticket"
+  Delete: # Delete command
+    Enabled: true
+    Description: "Force and instantly delete a ticket"
+  Panel: # Panel command
+    Enabled: true
+    Description: "Send the ticket panel"
+  Pin: # Pin command
+    Enabled: true
+    Description: "Pin a ticket"
+  Rename: # Rename command
+    Enabled: true
+    Description: "Rename a ticket"
+  Alert: # Alert command
+    Enabled: true
+    Description: "Ping the creator with a message saying the ticket will be closed if no response has been received."
+  Priority: # Alert command
+    Enabled: true
+    Description: "Manage ticket priority"
+
+# ===========================================================================
+# UTILITY COMMANDS
+# ===========================================================================
+
+Utility:
+  Blacklist: # Blacklist command
+    Enabled: true
+    Description: "Manage user blacklist"
+  Calculate: # Calculate command
+    Enabled: true
+    Description: "Math Calculator"
+  Crypto: # Crypto command
+    Enabled: true
+    Description: "Send a Crypto Payment"
+  Invoice: # Invoice command
+    Enabled: true
+    Description: "Send an invoice to a user"

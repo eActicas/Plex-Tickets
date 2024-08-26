@@ -1,0 +1,702 @@
+<!-- views/embed.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/23c5cf9afa.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Helvetica:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Embed Builder | Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica', sans-serif;
+            background-color: #16191c;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        #main-content {
+            display: flex;
+            flex-grow: 1;
+            overflow-x: hidden;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .home-container {
+            background-color: #1e2126;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            padding: 40px;
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .home-container h1 {
+            color: #5e99ff;
+            margin: 20px 0;
+        }
+
+        .container-fluid {
+    padding-top: 20px;
+}
+
+.card {
+    margin-bottom: 5px;
+    background-color: #36393F;
+    color: #ffffff;
+}
+
+.card-header {
+    background-color: #23272A;
+    color: #FFF;
+}
+
+.card-body {
+    background-color: #2C2F33;
+    color: #DCDDDE;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    outline: none !important;
+}
+
+.form-label {
+    display: block;
+    color: #B9BBBE;
+    font-size: 0.875rem;
+    margin-bottom: .5rem;
+}
+
+.form-control, .btn-primary, .form-select {
+    background-color: #40444B;
+    border: 1px solid #40444B;
+    color: #DCDDDE;
+}
+
+.form-control::placeholder {
+    color: #686D73;
+}
+
+.btn-primary {
+    background-color: #5865F2;
+    border-color: #5865F2;
+}
+
+.btn-primary:hover {
+    background-color: #4752C4;
+    border-color: #4752C4;
+}
+
+input:invalid, textarea:invalid {
+    border-color: red;
+}
+
+input:invalid:focus, textarea:invalid:focus {
+    outline-color: red;
+}
+input:focus{
+   outline:none !important;
+  }
+.invalid-feedback {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #E74C3C; 
+}
+        
+.preview-image-container {
+    display: flex;
+    justify-content: flex-start;
+}
+ 
+
+    #preview-thumbnail {
+    position: absolute;
+    top: 0;
+    display: flex;
+    right: 0;
+    max-width: 100px; /* Adjust the max-width according to your preference */
+    max-height: 100px; /* Adjust the max-height according to your preference */
+    border-radius: 8px; /* Optional: Add border-radius for rounded corners */
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #CCC;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+@media (min-width: 992px) {
+    .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+.embed-author-icon, .embed-footer-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+        
+        .embed-description {
+            font-size: 13px;
+        }
+
+.preview-footer, .preview-footer-text {
+    font-size: 0.75rem;
+    color: #dddddd;
+}
+
+.embed-title {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#preview-author-name {
+    font-weight: bold;
+    font-size: 13px;
+}
+.preview-footer-text,
+.preview-footer-icon,
+.preview-timestamp {
+    font-size: 0.75rem;
+}
+
+.preview-timestamp {
+    color: #dddddd;
+    font-size: 0.75rem;
+}
+        
+#preview-footer-text {
+    color: #dddddd;
+    font-size: 0.75rem;
+        }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+blockquote {
+    border-left: 4px solid #5865F2;
+
+    color: #DCDDDE;
+    padding: 0.5em 10px;
+    margin-top: 0;
+    margin-bottom: 0;
+    overflow: auto;
+    white-space: pre-wrap;
+}
+
+blockquote:first-of-type {
+    margin-top: 0.5em;
+}
+
+blockquote:last-of-type {
+    margin-bottom: 0.5em;
+}
+
+.large-text {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+#preview-image {
+    max-width: 100%;
+    max-height: 300px;
+    display: block;
+    margin: 10px;
+}
+        
+#preview-description {
+    font-size: 13px;
+    margin-top: 7px;
+    line-height: 15px;
+}
+        
+#color {
+    -webkit-appearance: none;
+    border: 0;  
+    width: 80px;  
+    height: 80px;  
+    cursor: pointer;
+    border-radius: 116px; 
+    vertical-align: middle;  
+    padding: 5px
+ 
+}
+   #color::-webkit-color-swatch {
+  border: none;
+  border-radius: 116px;
+  padding: 0;
+}
+#color::-webkit-color-swatch-wrapper {
+  border: none;
+  border-radius: 116px;
+  padding: 0;
+}    
+
+.extras-row {
+    display: flex;
+    gap: 20px; /* Adjust the gap according to your preference */
+}
+
+.color-picker,
+.timestamp-switch {
+    flex: 1;
+}
+
+.modal-content {
+    background-color: #2C2F33;
+    color: #DCDDDE;
+}
+
+.modal-header {
+    border-bottom: 1px solid #40444B;
+    background-color: #23272A;
+    color: #FFF;
+}
+
+.modal-title {
+    font-weight: bold;
+    color: #5e99ff;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    border-top: 1px solid #40444B;
+    background-color: #23272A;
+}
+
+/* Close button styles */
+.close {
+    color: #FFF;
+}
+
+.close:hover,
+.close:focus {
+    color: #5e99ff;
+}
+
+    </style>
+
+</head>
+
+<body>
+    <%- include('partials/header', { user: user, currentPage: 'embed' }) %>
+
+    <div id="main-content">
+        <div class="home-container">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Form Container -->
+                    <div class="col-lg-6 mb-4">
+                        <!-- Author Info Section -->
+                        <div class="card">
+                            <div class="card-header">Author Info</div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="form-label" for="author-name">Author Name</label>
+                                    <input type="text" class="form-control" id="author-name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="author-url">Author URL</label>
+                                    <input type="url" class="form-control" id="author-url">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="author-icon">Author Icon</label>
+                                    <input type="url" class="form-control" id="author-icon">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Main Body Section -->
+                        <div class="card">
+                            <div class="card-header">Main Body</div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="form-label" for="title">Title</label>
+                                    <input type="text" class="form-control" id="title">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="description">Description</label>
+                                    <textarea class="form-control" id="description" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="image-url">Image</label>
+                                    <input type="url" class="form-control" id="image-url">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="thumbnail-url">Thumbnail Image</label>
+                                    <input type="url" class="form-control" id="thumbnail-url">
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!-- Footer Section -->
+                        <div class="card">
+                            <div class="card-header">Footer</div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="form-label" for="footer-text">Footer Text</label>
+                                    <input type="text" class="form-control" id="footer-text">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="footer-icon">Footer Icon</label>
+                                    <input type="url" class="form-control" id="footer-icon">
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="card">
+                            <div class="card-header">Extras</div>
+                            <div class="card-body">
+                                <div class="form-group extras-row">
+                                    <!-- Color Picker -->
+                                    <div class="color-picker">
+                                        <label for="color" class="form-label">Color</label>
+                                        <input type="color" class="form-control form-control-color" id="color" value="#7289da" title="Choose your color">
+                                    </div>
+                        
+                                    <!-- Timestamp Switch -->
+                                    <div class="timestamp-switch">
+                                        <label for="timestamp" class="form-label">Timestamp</label>
+                                        <label class="switch">
+                                            <input type="checkbox" id="timestamp">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+            
+                    <!-- Channel Dropdown -->
+                    <div class="form-group">
+                        <label for="channel" class="form-label">Channel</label>
+                        <select class="form-control" id="channel">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+                        <!-- Post Button -->
+                        <div class="mb-4">
+                            <button type="button" class="btn btn-primary" id="post-embed">Post to Channel</button>
+            
+                        </div>
+                    </div>
+            
+                    <!-- Preview Container -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card p-4 discord-preview" id="preview-container">
+                            <div class="embed-author">
+                                <img id="preview-author-icon" class="embed-author-icon">
+                                <span id="preview-author-name" class="bold author-name"></span>
+                            </div>
+                            <div id="preview-title" class="embed-title"></div>
+                            <div id="preview-description" class="embed-description"></div>
+                            <div class="preview-image-container">
+                                 <img id="preview-image" class="embed-image" src="" alt="Embed Image">
+                            </div>
+                            <div class="preview-image-container">
+                                <img id="preview-thumbnail" class="embed-thumbnail" src="" alt="Embed Thumbnail">
+                              </div>
+                            <div class="embed-footer">
+                                <img id="preview-footer-icon" class="embed-footer-icon">
+                                <span id="preview-footer-text"></span>
+                                <span id="preview-timestamp-spacer" style="display:none;font-size:15px"></span>
+                                <span id="preview-timestamp" class="preview-timestamp"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+
+            function validateAndFormatURL(url) {
+      if (!url || url.length > 2048 || !/^(http|https):\/\/[^ "]+$/.test(url)) {
+        return null;
+      }
+      return url;
+    }
+
+    function groupConsecutiveBlockquotes(lines) {
+      let groupedLines = [];
+      let currentGroup = [];
+
+      lines.forEach(line => {
+        if (/^>\s+/.test(line)) {
+          currentGroup.push(line.substring(2).trim());
+        } else {
+          if (currentGroup.length > 0) {
+            groupedLines.push('<blockquote>' + currentGroup.join('<br>') + '</blockquote>');
+            currentGroup = [];
+          }
+          if (line.trim() !== '') {
+            groupedLines.push(line);
+          }
+        }
+      });
+
+      if (currentGroup.length > 0) {
+        groupedLines.push('<blockquote>' + currentGroup.join('<br>') + '</blockquote>');
+      }
+
+      return groupedLines;
+    }
+
+function updatePreview() {
+    let lines = $('#description').val().split('\n');
+    let groupedText = groupConsecutiveBlockquotes(lines);
+
+    let processedText = groupedText.map(line => {
+        if (line.startsWith('<blockquote>')) {
+            return line;
+        } else if (line.trim().startsWith('# ')) {
+            return '<div class="large-text">' + line.substring(2).trim() + '</div>';
+        } else {
+            return line + '<br>';
+        }
+    }).join('');
+
+    processedText = processedText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+    processedText = processedText.replace(/\*(.*?)\*/g, '<i>$1</i>');
+    processedText = processedText.replace(/__(.*?)__/g, '<u>$1</u>');
+
+    $('#preview-description').html(processedText);
+
+      let authorName = $('#author-name').val();
+      let authorIconUrl = validateAndFormatURL($('#author-icon').val());
+      let authorUrl = validateAndFormatURL($('#author-url').val());
+      let footerText = $('#footer-text').val();
+      let footerIconUrl = validateAndFormatURL($('#footer-icon').val());
+
+      let imageUrl = validateAndFormatURL($('#image-url').val());
+      let thumbnailUrl = validateAndFormatURL($('#thumbnail-url').val());
+
+      if (authorUrl) {
+        $('#preview-author-name').html('<a href="' + authorUrl + '" target="_blank" style="color: inherit;">' + authorName + '</a>');
+      } else {
+        $('#preview-author-name').text(authorName);
+      }
+
+      $('#preview-author-icon').attr('src', authorIconUrl || '').toggle(!!authorIconUrl);
+
+      $('#preview-footer-text').text(footerText);
+
+      $('#preview-footer-icon').attr('src', footerIconUrl || '').toggle(!!footerIconUrl);
+
+      $('#preview-image').attr('src', imageUrl || '').toggle(!!imageUrl);
+
+      $('#preview-thumbnail').attr('src', thumbnailUrl || '').toggle(!!thumbnailUrl);
+
+      $('#preview-title').text($('#title').val());
+
+if ($('#timestamp').is(':checked')) {
+      let now = new Date();
+      let hours = now.getHours().toString().padStart(2, '0');
+      let minutes = now.getMinutes().toString().padStart(2, '0');
+      let formattedTime = `• Today at ${hours}:${minutes}`;
+      $('#preview-timestamp').html(formattedTime).css('color', '#dddddd');
+    } else {
+      $('#preview-timestamp').html('');
+    }
+ 
+      $('#preview-container').css('border-left', '4px solid ' + $('#color').val());
+     }
+ 
+
+
+
+    // Function to post the embed
+$('#post-embed').click(function() {
+  var description = $('#description');
+  if (!description.val().trim()) {
+    $('#descriptionFeedback').show();
+    description.addClass('is-invalid');
+    return;
+  } else {
+    $('#descriptionFeedback').hide();
+    description.removeClass('is-invalid');
+  }
+
+      let authorIconUrl = validateAndFormatURL($('#author-icon').val());
+      let footerIconUrl = validateAndFormatURL($('#footer-icon').val());
+      let imageUrl = validateAndFormatURL($('#image-url').val());
+      let thumbnailUrl = validateAndFormatURL($('#thumbnail-url').val());
+
+      // Embed data structure
+      const embedData = {
+        channelId: $('#channel').val(),
+        title: $('#title').val(),
+        description: $('#description').val(),
+        color: $('#color').val().slice(1),
+        authorName: $('#author-name').val(),
+        authorUrl: validateAndFormatURL($('#author-url').val()),
+        authorIconUrl: authorIconUrl,
+        imageUrl: imageUrl,
+        thumbnailUrl: thumbnailUrl,
+        footerText: $('#footer-text').val(),
+        footerIconUrl: footerIconUrl,
+        timestamp: $('#timestamp').is(':checked') ? new Date().toISOString() : null
+      };
+
+fetch('/embed/create', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(embedData),
+})
+    .then(response => response.json()) 
+    .then(data => {
+        $('#successModal').modal('show');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+    });
+    $(document).ready(function() {
+      $('.form-control').on('input change', updatePreview);
+
+      $('#timestamp').change(function() {
+        updatePreview();
+      });
+
+      updatePreview();
+
+      fetch('/embed/channels')
+        .then(response => response.json())
+        .then(data => {
+          const channelSelect = $('#channel');
+          data.channels.forEach(channel => {
+            channelSelect.append(new Option(channel.name, channel.id));
+          });
+        })
+        .catch(error => console.error('Error fetching channels:', error));
+    });
+</script>
+<div id="footer">
+    <%- include('partials/footer') %>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="successModalLabel">Success!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Your embed has been successfully posted to the channel.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

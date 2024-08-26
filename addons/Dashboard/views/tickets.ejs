@@ -1,0 +1,457 @@
+<!-- views/tickets.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tickets | Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/23c5cf9afa.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Helvetica:wght@400;700&display=swap">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Helvetica', sans-serif;
+            background-color: #16191c;
+            color: #fff;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        #main-content {
+            display: flex;
+            flex-grow: 1;
+            overflow-x: hidden;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .tickets-container {
+            background-color: #1e2126;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            box-sizing: border-box;
+            padding: 20px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tickets-section {
+            margin-top: 40px;
+        }
+
+        .tickets-section h1 {
+            text-align: center;
+            width: 100%;
+            color: #5e99ff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        th, td {
+            border: 1px solid #5e99ff;
+            padding: 12px;
+            text-align: left;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .tickets-container {
+                padding: 20px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            .user-cell,
+            .closedBy-cell {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .avatar {
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+
+            .closedBy-cell img {
+                margin-bottom: 5px;
+            }
+
+            .username-info,
+            .closedBy-info {
+                flex-direction: column;
+                align-items: center;
+                flex-grow: 1;
+            }
+
+            .pagination {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pagination a {
+                margin: 5px 0;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .tickets-container {
+                padding: 20px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            .user-cell,
+            .closedBy-cell {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .avatar {
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+
+            .closedBy-cell img {
+                margin-bottom: 5px;
+            }
+
+            .username-info,
+            .closedBy-info {
+                flex-direction: column;
+                align-items: center;
+                flex-grow: 1;
+            }
+
+            .pagination {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pagination a {
+                margin: 5px 0;
+            }
+        }
+
+        .user-cell,
+        .closedBy-cell {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .username-info,
+        .closedBy-info {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        .userId,
+        .closedById {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            color: #5e99ff;
+            text-decoration: none;
+            padding: 10px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background-color: #5e99ff;
+            color: #fff;
+        }
+
+        .pagination .current {
+            background-color: #5e99ff;
+            color: #fff;
+        }
+
+        .view-transcript-button {
+            background-color: #2ecc71;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+        
+        .view-transcript-button:hover {
+            background-color: #27ae60;
+        }
+        
+        .delete-button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .delete-button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+        
+</head>
+
+<body>
+    <%- include('partials/header', { user: user, currentPage: 'tickets'}) %>
+
+    <div id="main-content">
+        <div class="tickets-container">
+            <% if (tickets.length > 0) { %>
+            <section class="tickets-section">
+                <h1>Open Tickets <span style="color: #808080;">(<%= openTicketsTotal %>)</span></h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ticket Creator</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Claimed by</th>
+                            <th>Information</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% openTickets.forEach(ticket => { %>
+                            <tr>
+                                <td class="user-cell">
+                                    <img src="<%= ticket.avatar %>" alt="User Avatar" class="avatar">
+                                    <div class="username-info">
+                                        <div class="username"><%= ticket.username %></div>
+                                        <div class="userId">(ID: <%= ticket.userID %>)</div>
+                                    </div>
+                                </td>
+                                <td><%= ticket.ticketType %></td>
+                                <td><%= ticket.status %></td>
+                                <td class="closedBy-cell">
+                                    <img src="<%= ticket.claimUserInfo.avatar %>" alt="Closed By Avatar" class="avatar">
+                                    <div class="closedBy-info">
+                                        <div class="closedBy"><%= ticket.claimUserInfo.username %></div>
+                                        <div class="closedById">(ID: <%= ticket.claimUser ? ticket.claimUser : 'None' %>)</div>
+                                    </div>
+                                </td>
+                                <td>Total Messages: <%= ticket.messages %>
+                                    <div class="userId">
+                                        (<%= (() => {
+                                            const creationDate = new Date(ticket.lastMessageSent);
+                                            const now = new Date();
+                                    
+                                            const timeDifference = now - creationDate;
+                                            const minutes = Math.floor(timeDifference / (1000 * 60));
+                                            const hours = Math.floor(minutes / 60);
+                                            const days = Math.floor(hours / 24);
+                                    
+                                            if (days > 0) {
+                                                return `${days}d, ${hours % 24}h ago`;
+                                            } else if (hours > 0) {
+                                                return `${hours}h, ${minutes % 60}m ago`;
+                                            } else {
+                                                return `${minutes}m ago`;
+                                            }
+                                        })()%>)
+                                    </div>
+                                <td>
+                                    <%= (() => {
+                                        const creationDate = new Date(ticket.ticketCreationDate);
+                                        const now = new Date();
+                                
+                                        const timeDifference = now - creationDate;
+                                        const minutes = Math.floor(timeDifference / (1000 * 60));
+                                        const hours = Math.floor(minutes / 60);
+                                        const days = Math.floor(hours / 24);
+                                
+                                        if (days > 0) {
+                                            return `${days}d, ${hours % 24}h ago`;
+                                        } else if (hours > 0) {
+                                            return `${hours}h, ${minutes % 60}m ago`;
+                                        } else {
+                                            return `${minutes}m ago`;
+                                        }
+                                    })()%>
+                                    <div class="userId">
+                                        (<%= new Date(ticket.ticketCreationDate).toLocaleString('en-US', {
+                                            year: 'numeric',
+                                            month: 'short',
+                                            day: 'numeric',
+                                            hour: 'numeric',
+                                            minute: 'numeric',
+                                            hour12: true  // Use 12-hour format
+                                        })%>)
+                                    </div>
+                                </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="tickets-section">
+                <h1>Closed Tickets <span style="color: #808080;">(<%= closedTicketsTotal %>)</span></h1>
+                <div class="search-bar">
+                    <form action="/tickets" method="GET">
+                        <input type="text" id="search" name="search" placeholder="User ID, username, or category" oninput="searchTickets()" value="<%= searchQuery || '' %>" style="padding: 8px 12px; width: 200px; box-sizing: border-box; border: 1px solid #5e99ff; border-radius: 5px; background-color: #38444d; color: #ccc; font-size: 14px;">
+                        <button type="submit" style="padding: 8px; border: 1px solid #5e99ff; border-radius: 5px; background-color: #38444d; color: #ccc; font-size: 14px; cursor: pointer;">Search</button>
+                        <button type="button" onclick="resetSearch()" style="padding: 8px; border: 1px solid #5e99ff; border-radius: 5px; background-color: #38444d; color: #ccc; font-size: 14px; cursor: pointer;">Reset</button>
+                    </form>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ticket Creator</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Closed By</th>
+                            <th>Closed At</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% tickets.filter(ticket => ticket.status === 'Closed').forEach(ticket => { %>
+                            <tr>
+                                <td class="user-cell">
+                                    <img src="<%= ticket.avatar %>" alt="User Avatar" class="avatar">
+                                    <div class="username-info">
+                                        <div class="username"><%= ticket.username %></div>
+                                        <div class="userId">(ID: <%= ticket.userID %>)</div>
+                                    </div>
+                                </td>
+                                <td><%= ticket.ticketType %></td>
+                                <td><%= ticket.status %></td>
+                                <td class="closedBy-cell">
+                                    <img src="<%= ticket.closedByAvatar %>" alt="Closed By Avatar" class="avatar">
+                                    <div class="closedBy-info">
+                                        <div class="closedBy"><%= ticket.closedBy %></div>
+                                        <div class="closedById">(ID: <%= ticket.closeUserID %>)</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="username-info">
+                                        <div class="username">
+                                            <%= new Date(ticket.closedAt).toLocaleString('en-US', {
+                                                year: 'numeric',
+                                                month: 'short',
+                                                day: 'numeric',
+                                                hour: 'numeric',
+                                                minute: 'numeric',
+                                                hour12: true  // Use 12-hour format
+                                            }) %>
+                                        </div>
+                                        <div class="userId">
+                                            (Created at:
+                                            <%= new Date(ticket.ticketCreationDate).toLocaleString('en-US', {
+                                                year: 'numeric',
+                                                month: 'short',
+                                                day: 'numeric',
+                                                hour: 'numeric',
+                                                minute: 'numeric',
+                                                hour12: true  // Use 12-hour format
+                                            })%>)
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <% if (userRoles.some(role => config.Actions.ViewTranscripts.includes(role))) { %>
+                                        <button class="view-transcript-button" onclick="viewTranscript('/transcript?channelId=<%= ticket.channelID %>&dateNow=<%= ticket.transcriptID %>')">View Transcript</button>
+                                    <% } %>
+                                
+                                    <% if (userRoles.some(role => config.Actions.DeleteTickets.includes(role))) { %>
+                                        <form action="/delete-ticket/<%= ticket.channelID %>" method="POST" style="display: inline-block;">
+                                            <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this ticket from the database?')">Delete</button>
+                                        </form>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+
+                <div class="pagination">
+                    <% if (currentPage > 1) { %>
+                        <a href="/tickets?page=<%= currentPage - 1 %>">Previous</a>
+                    <% } %>
+                
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <a href="/tickets?page=<%= i %>" <%= i === currentPage ? 'class="active"' : '' %>><%= i %></a>
+                    <% } %>
+                
+                    <% if (currentPage < totalPages) { %>
+                        <a href="/tickets?page=<%= currentPage + 1 %>">Next</a>
+                    <% } %>
+                </div>
+                <% } else { %>
+                    <h1>No tickets found</h1>
+                <% } %>
+            
+        </div>
+    </div>
+
+<script>
+function viewTranscript(url) {
+    window.open(url, '_blank');
+}
+
+function resetSearch() {
+    document.getElementById('search').value = '';
+    document.querySelector('.search-bar form').submit();
+}
+</script>
+    <%- include('partials/footer') %>
+</body>
+
+</html>

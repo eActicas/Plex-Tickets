@@ -1,0 +1,530 @@
+<!-- views/reviews.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews | Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/23c5cf9afa.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Helvetica:wght@400;700&display=swap">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Helvetica', sans-serif;
+            background-color: #16191c;
+            color: #fff;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        #main-content {
+            display: flex;
+            flex-grow: 1;
+            overflow-x: hidden;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .reviews-container {
+            background-color: #1e2126;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            box-sizing: border-box;
+            padding: 20px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .reviews-container h1 {
+            text-align: center;
+            width: 100%;
+            color: #5e99ff;
+        }
+
+        .reviews {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .review-box {
+            background-color: #38444d;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            color: #5e99ff;
+            flex-basis: calc(50% - 20px);
+            box-sizing: border-box;
+            margin: 20px 10px;
+            max-height: none;
+            overflow: visible;
+        }
+
+        .review-box .read-more {
+            color: #5e99ff;
+            cursor: pointer;
+            margin-top: 10px;
+            text-decoration: underline;
+        }
+
+        .read-more:hover {
+            text-decoration: none;
+        }
+
+        .review-box.expanded {
+            max-height: none;
+        }
+
+        .review-box h2 {
+            margin-bottom: 10px;
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .user-details span {
+            margin-top: 5px;
+        }
+
+        .logout-button {
+            background-color: #5e99ff;
+            color: #fff;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .pagination a {
+            color: #5e99ff;
+            text-decoration: none;
+            padding: 10px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background-color: #5e99ff;
+            color: #fff;
+        }
+
+        .pagination .current {
+            background-color: #5e99ff;
+            color: #fff;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .reviews-container {
+                padding: 20px;
+            }
+
+            .review-box {
+                flex-basis: calc(100% - 20px);
+                max-width: calc(100% - 20px);
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .reviews-container {
+                padding: 20px;
+            }
+
+            .review-box {
+                flex-basis: calc(100% - 20px);
+                max-width: calc(100% - 20px);
+            }
+        }
+
+        .user-review-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .user-review-info .profile-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .user-review-info img {
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            margin-right: 5px;
+        }
+
+        .user-review-info .user-name {
+            margin: 0;
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #2c2c2c;
+            margin: 10% auto;
+            padding: 20px 40px;
+            border: 1px solid #5e99ff;
+            border-radius: 8px;
+            color: #fff;
+            max-width: 600px;
+            width: 80%;
+            max-height: 70vh;
+            overflow-y: auto;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .modal-content p {
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .close {
+            color: #5e99ff;
+            float: right;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 5px;
+            right: 20px;
+        }
+
+        .close:hover {
+            color: #fff;
+        }
+
+        .modal-content p {
+            margin-bottom: 15px;
+        }
+
+        .review-message,
+        .no-review-message {
+            color: #ccc;
+        }
+
+        label[for="ratingFilter"] {
+            color: #ccc;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        #ratingFilter {
+            padding: 8px;
+            border: 1px solid #5e99ff;
+            border-radius: 5px;
+            background-color: #38444d;
+            color: #ccc;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        #ratingFilter option {
+            background-color: #38444d;
+            color: #ccc;
+        }
+
+        #ratingFilter:hover,
+        #ratingFilter:focus {
+            border-color: #5e99ff;
+        }
+
+        @media only screen and (max-width: 768px) {
+            label[for="ratingFilter"],
+            #ratingFilter {
+                font-size: 12px;
+            }
+        }
+
+        .delete-button {
+            background-color: #d9534f;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-top: -3px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .delete-button:hover {
+            background-color: #c9302c;
+        }
+
+        .view-transcript-button {
+            background-color: #808080;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-top: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .view-transcript-button:hover {
+            background-color: #737373;
+        }
+
+        .button-container {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+ #fullReviewMessage {
+   margin: 0;
+}
+
+#header {
+    z-index: 999;
+}
+
+    </style>
+
+</head>
+
+<body>
+    <%- include('partials/header', { user: user, currentPage: 'reviews'}) %>
+
+    <div id="main-content">
+        <div class="reviews-container">
+            <h1>All Reviews <span style="color: #808080;">(<%= reviews.length %>)</span></h1>
+
+        <label for="ratingFilter">Sort by:</label>
+        <select id="ratingFilter" onchange="applyRatingFilter()">
+            <option value="recent">Recent</option>
+            <option value="lowToHigh">Lowest to Highest</option>
+            <option value="highToLow">Highest to Lowest</option>
+        </select>
+
+            <% if (reviews.length > 0) { %>
+            <% const reviewsPerPage = 8; %>
+            <% const totalPages = Math.ceil(reviews.length / reviewsPerPage); %>
+            <% const currentPage = parseInt(req.query.page) || 1; %>
+            <% const startIndex = (currentPage - 1) * reviewsPerPage; %>
+            <% const endIndex = startIndex + reviewsPerPage; %>
+
+            <div class="reviews">
+                <% reviews.slice(startIndex, endIndex).forEach(review => { %>
+                <div class="review-box">
+                    <div class="user-review-info">
+                        <div class="profile-info">
+                            <img class="profile-pic" src="<%= review.userInfo.avatarURL %>" alt="User Avatar">
+                            <p class="user-name">
+                                <span style="color: #ccc;"></span> <%= review.userInfo.username %>
+                            </p>
+                        </div>
+                        <% if (review.updatedAt) { %>
+                            <p style="font-size: 12px; color: #808080; margin-top: 5px;">
+                                (<%= new Date(review.updatedAt).toLocaleString('en-US', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric',
+                                    hour: 'numeric',
+                                    minute: 'numeric',
+                                    hour12: true  // Use 12-hour format
+                                })%>)
+
+                            </p>
+                        <% } %>
+                    </div>
+                    <h2>
+                        <% for (let i = 0; i < review.rating; i++) { %>
+                            <i class="fas fa-star" style="color: #FFD700;"></i>
+                        <% } %>
+                        <% for (let i = review.rating; i < 5; i++) { %>
+                            <i class="far fa-star" style="color: #ccc;"></i>
+                        <% } %>
+                    </h2>
+                    <% if (review.reviewMessage) { %>
+                        <p class="review-message" data-full="<%= review.reviewMessage %>">
+                            <i class="fas fa-comment" style="color: #5e99ff;"></i>
+                            <%= review.reviewMessage.substring(0, 50) %>
+                            <% if (review.reviewMessage.length > 50) { %>
+                                ...&nbsp;<span class="read-more" onclick="toggleReadMore(this)">Read More</span>
+                            <% } %>
+                        </p>
+                    <% } else { %>
+                        <p class="no-review-message">
+                            <i class="fas fa-comment" style="color: #5e99ff;"></i>
+                            No review message found.
+                        </p>
+                    <% } %>
+                    
+                    <% if (userRoles.some(role => config.Actions.ViewTranscripts.includes(role))) { %>
+                    <div class="button-container">
+                        <button class="view-transcript-button" onclick="viewTranscript('/transcript?channelId=<%= review.ticketChannelID %>&dateNow=<%= review.transcriptID %>')">View Transcript</button>
+                    </div>
+                    <% } %>
+                    <div class="button-container">
+                        <% if (userRoles.some(role => config.Actions.DeleteReviews.includes(role))) { %>
+                            <button class="delete-button" onclick="deleteReview('<%= review._id %>')">Delete</button>
+                        <% } %>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+
+    
+                <div class="pagination">
+                    <% if (currentPage > 1) { %>
+                        <a href="/reviews?page=<%= currentPage - 1 %>&sort=<%= sortOption %>">&laquo; Previous</a>
+                    <% } %>
+                
+                    <% for (let page = 1; page <= totalPages; page++) { %>
+                        <a href="/reviews?page=<%= page %>&sort=<%= sortOption %>" class="<%= page === currentPage ? 'current' : '' %>"><%= page %></a>
+                    <% } %>
+                
+                    <% if (currentPage < totalPages) { %>
+                        <a href="/reviews?page=<%= currentPage + 1 %>&sort=<%= sortOption %>">Next &raquo;</a>
+                    <% } %>
+                </div>
+    
+            <% } else { %>
+                <p>No reviews found.</p>
+            <% } %>
+        </div>
+    </div>
+    
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p id="fullReviewMessage"></p>
+        </div>
+    </div>
+
+    <script>
+        function toggleReadMore(element) {
+            var reviewMessage = element.parentElement.dataset.full;
+            document.getElementById("fullReviewMessage").innerHTML = reviewMessage;
+            openModal();
+        }
+
+        function openModal() {
+            document.getElementById("reviewModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("reviewModal").style.display = "none";
+        }
+        
+        document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const sortOption = urlParams.get('sort') || 'recent';
+
+        const ratingFilter = document.getElementById('ratingFilter');
+        if (ratingFilter) {
+            ratingFilter.value = sortOption;
+        }
+    });
+
+    function applyRatingFilter() {
+        var selectedValue = document.getElementById("ratingFilter").value;
+        window.location.href = '/reviews' + (selectedValue !== 'recent' ? '?sort=' + selectedValue : '');
+    }
+
+        function viewTranscript(url) {
+        window.open(url, '_blank');
+        }
+
+        async function deleteReview(reviewId) {
+        const confirmed = confirm('Are you sure you want to delete this review?');
+
+        if (confirmed) {
+            try {
+                const response = await fetch(`/reviews/delete/${reviewId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    console.error('Failed to delete review:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error deleting review:', error);
+            }
+        }
+    }
+        
+    </script>
+
+<%- include('partials/footer') %>
+
+</body>
+
+</html>

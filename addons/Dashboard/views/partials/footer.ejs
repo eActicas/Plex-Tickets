@@ -1,0 +1,53 @@
+<!-- views/partials/footer.ejs -->
+
+<footer>
+    <div class="footer-content">
+        <a href="https://plexdevelopment.net" target="_blank">
+            <img src="https://i.imgur.com/LGS8a5u.png" alt="Plex Tickets Logo" class="plex-logo">
+            <p class="powered-by-text">Powered by <span class="plex-tickets-text">Plex Tickets</span></p>
+        </a>
+        <p class="copyright-text">© <%= new Date().getFullYear() %> Plex Development</p>
+        <p class="copyright-text ">v<%= discordBotVersion %> | v<%= dashboardVersion %></p>
+    </div>
+</footer>
+
+<style>
+    footer {
+        margin-top: 20px;
+        background-color: #16191c;
+        color: #fff;
+        padding: 10px;
+        box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.5);
+        width: 100%;
+        line-height: normal;
+        font-size: 16px;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .plex-logo {
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+
+    .powered-by-text {
+        display: inline-block;
+        vertical-align: middle;
+        color: #ccc;
+    }
+
+    .plex-tickets-text {
+        color: #5e99ff;
+    }
+
+    .copyright-text {
+        color: #ccc;
+        margin-top: 5px;
+    }
+</style>

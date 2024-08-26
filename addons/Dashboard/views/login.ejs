@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/23c5cf9afa.js" crossorigin="anonymous"></script>
+    <title>Login | Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #16191c;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .login-container {
+            background-color: #1e2126;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #5e99ff;
+        }
+
+        p {
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #5e99ff;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #4a84e2;
+        }
+
+        .discord-icon {
+            margin-right: 10px;
+        }
+
+        footer {
+            color: #888;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        footer a {
+            color: #5e99ff;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login with Discord</h1>
+        <p>Click the button below to log in with your Discord account:</p>
+        <a href="/auth" class="button">
+            <i class="fab fa-discord discord-icon"></i>
+            Login with Discord
+        </a>
+    </div>
+    <footer>
+        Powered by Plex Tickets<br>
+        <a href="https://plexdevelopment.net" target="_blank">https://plexdevelopment.net</a>
+        <!-- Removing this watermark/footer is a violation of our terms of service. 
+             This can only be removed if you have purchased the full source code of the dashboard. -->
+    </footer>
+</html>
